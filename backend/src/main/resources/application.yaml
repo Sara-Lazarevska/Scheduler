@@ -7,10 +7,13 @@ spring:
     password: ${DB_PASSWORD:scheduler}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     open-in-view: false
 server:
   port: ${PORT:8080}
 app:
   cors:
     allowed-origins: http://localhost:5173
+gemini:
+  api-key: ${GEMINI_API_KEY:}
+  model: ${GEMINI_MODEL:gemini-3.7-flash}

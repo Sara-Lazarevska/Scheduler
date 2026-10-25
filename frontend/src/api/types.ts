@@ -34,3 +34,7 @@ export interface Booking {
     notes: string | null;
     createdAt: string;
 }
+export interface Confirmation {
+    message: string;
+    aiGenerated: boolean;
+}

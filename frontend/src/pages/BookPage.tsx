@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api/client';
-import type { Booking, Slot } from '../api/types';
+import type {Booking, Confirmation, Slot} from '../api/types';
 import BookingModal from '../components/BookingModal';
 import { endTime, formatDay, groupByDate, hhmm } from '../utils/format';
 
@@ -22,9 +22,12 @@ export default function BookPage() {
         }
     }, []);
 
+    const [message, setMessage] = useState<Confirmation | null>(null);
+
     useEffect(() => {
-        load();
-    }, [load]);
+        if (!confirmed) { setMessage(null); return; }
+        api.getConfirmation(confirmed.id).then(setMessage).catch(() => setMessage(null));
+    }, [confirmed]);
 
     if (confirmed) {
         return (
@@ -37,6 +40,16 @@ export default function BookPage() {
                     {confirmed.position && <> · {confirmed.position}</>}
                 </p>
                 <p className="muted">Booked as {confirmed.candidateName} ({confirmed.candidateEmail})</p>
+                <div className="ai-message">
+                    {message ? (
+                        <>
+                            <p>{message.message}</p>
+                            {message.aiGenerated && <small className="muted">✨ Written by AI</small>}
+                        </>
+                    ) : (
+                        <p className="muted">Writing your confirmation...</p>
+                    )}
+                </div>
                 <button
                     className="btn"
                     onClick={() => {

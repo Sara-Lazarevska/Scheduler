@@ -1,4 +1,4 @@
-import type { Booking, BookSlotRequest, CreateSlotRequest, Slot, SlotStatus } from './types';
+import type {Booking, BookSlotRequest, Confirmation, CreateSlotRequest, Slot, SlotStatus} from './types';
 
 const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8080';
 
@@ -44,4 +44,6 @@ export const api = {
     book: (slotId: number, body: BookSlotRequest) =>
         request<Booking>(`/api/slots/${slotId}/bookings`, { method: 'POST', body: JSON.stringify(body) }),
     listBookings: () => request<Booking[]>('/api/bookings'),
+    getConfirmation: (bookingId: number) =>
+        request<Confirmation>(`/api/bookings/${bookingId}/confirmation`, { method: 'POST' }),
 };
