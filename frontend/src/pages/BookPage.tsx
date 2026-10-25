@@ -22,6 +22,10 @@ export default function BookPage() {
         }
     }, []);
 
+    useEffect(() => {
+        load();
+    }, [load]);
+
     const [message, setMessage] = useState<Confirmation | null>(null);
 
     useEffect(() => {
